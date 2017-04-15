@@ -1,11 +1,20 @@
 package com.dearnikki.dearnikki;
 
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class UserAreaActivity extends AppCompatActivity {
 
@@ -23,12 +32,25 @@ public class UserAreaActivity extends AppCompatActivity {
         final Button btnEditProfile = (Button) findViewById(R.id.btnEditProfile);
 
         Intent intent = getIntent();
-        String first_name = intent.getStringExtra("first_name");
-        String last_name = intent.getStringExtra("last_name");
+        final int user_id = intent.getIntExtra("user_id", 0);
+        final String first_name = intent.getStringExtra("first_name");
+        final String last_name = intent.getStringExtra("last_name");
 
         String message = first_name + ", welcome!";
         welcomeMessage.setText(message);
         etFirstName.setText(first_name);
         etLastName.setText(last_name);
+
+        btnEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserAreaActivity.this, ProfileEditActivity.class);
+                intent.putExtra("user_id", user_id);
+                intent.putExtra("first_name", first_name);
+                intent.putExtra("last_name", last_name);
+
+                startActivity(intent);
+            }
+        });
     }
 }
